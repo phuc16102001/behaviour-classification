@@ -1,0 +1,3 @@
+N_TIME = 10
+N_EPOCH = 32
+BATCH_SIZE = 64
