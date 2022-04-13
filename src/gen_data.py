@@ -8,8 +8,6 @@ PLEASE DO NOT COPY WITHOUT PERMISSION!
 '''
 
 # Libraries
-from operator import index
-from turtle import color
 import cv2
 import mediapipe as mp
 import pandas as pd

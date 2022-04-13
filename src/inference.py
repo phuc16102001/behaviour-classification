@@ -8,8 +8,6 @@ PLEASE DO NOT COPY WITHOUT PERMISSION!
 '''
 
 # Libraries
-from operator import index
-from turtle import color
 import cv2
 import mediapipe as mp
 import os
@@ -74,6 +72,7 @@ files = os.listdir('data')
 classes = []
 for path in files:
     classes.append(path.split('.')[0])
+list.sort(classes)
 
 while True:
     ret, frame = cap.read()
