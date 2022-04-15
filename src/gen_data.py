@@ -13,6 +13,8 @@ import mediapipe as mp
 import pandas as pd
 import time
 
+from scipy.misc import face
+
 # Init variables
 cap = cv2.VideoCapture(0)
 mpPose = mp.solutions.pose
@@ -35,8 +37,11 @@ def make_landmark_timestamp(poseRet):
     return ret
 
 # Draw landmarks on image
-def draw_landmark(mpDraw, poseRet, frame):
-    mpDraw.draw_landmarks(frame, poseRet.pose_landmarks, mpPose.POSE_CONNECTIONS)
+def draw_landmark(frame, mpDraw, pose_landmarks=None, face_landmarks = None):
+    if (pose_landmarks is not None):
+        mpDraw.draw_landmarks(frame, pose_landmarks, mpPose.POSE_CONNECTIONS)
+    if (face_landmarks is not None):
+        mpDraw.draw_landmarks(frame, face_landmarks, mpPose.FACEMESH_CONTOURS)
     return frame
 
 def draw_count_frame(cnt, total, frame):
@@ -47,14 +52,16 @@ def draw_count_frame(cnt, total, frame):
     lineType = 2
     fontColor = (0, 0, 255)
     font = cv2.FONT_HERSHEY_SIMPLEX
-    cv2.putText(frame,
-                text,
-                pos,
-                font,
-                scale,
-                fontColor,
-                thickness,
-                lineType)
+    cv2.putText(
+        frame,
+        text,
+        pos,
+        font,
+        scale,
+        fontColor,
+        thickness,
+        lineType
+    )
     return frame
 
 for i in range(countDown):
@@ -74,10 +81,11 @@ while len(ls_landmark)<nFrame:
         poseRet = pose.process(rgb)
 
         # Draw and create data
+        img = frame.copy()
         if (poseRet.pose_landmarks):
             landmark = make_landmark_timestamp(poseRet)
             ls_landmark.append(landmark)
-            img = draw_landmark(mpDraw, poseRet, frame)
+            img = draw_landmark(frame, mpDraw, pose_landmarks=poseRet.pose_landmarks, face_landmarks = None)
 
         # Draw frame count
         img = draw_count_frame(len(ls_landmark), nFrame,img)
