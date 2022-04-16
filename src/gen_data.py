@@ -81,17 +81,16 @@ while len(ls_landmark)<nFrame:
         poseRet = pose.process(rgb)
 
         # Draw and create data
-        img = frame.copy()
         if (poseRet.pose_landmarks):
             landmark = make_landmark_timestamp(poseRet)
             ls_landmark.append(landmark)
-            img = draw_landmark(frame, mpDraw, pose_landmarks=poseRet.pose_landmarks, face_landmarks = None)
+            frame = draw_landmark(frame, mpDraw, pose_landmarks=poseRet.pose_landmarks, face_landmarks = None)
 
         # Draw frame count
-        img = draw_count_frame(len(ls_landmark), nFrame,img)
+        frame = draw_count_frame(len(ls_landmark), nFrame,frame)
 
         # Show pose
-        cv2.imshow('pose', img)
+        cv2.imshow('pose', frame)
         
 df = pd.DataFrame(ls_landmark)
 df.to_csv("data/{}.csv".format(label),index=False)

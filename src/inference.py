@@ -90,7 +90,7 @@ while True:
         if (poseRet.pose_landmarks):
             landmark = make_landmark_timestamp(poseRet)
             ls_landmark.append(landmark)
-            img = draw_landmark(mpDraw, poseRet, frame)
+            frame = draw_landmark(mpDraw, poseRet, frame)
 
         # Inference
         if (len(ls_landmark)==N_TIME):
@@ -102,10 +102,10 @@ while True:
             ls_landmark = []
 
         # Draw frame count
-        img = draw_label(label, img)
+        frame = draw_label(label, frame)
 
         # Show pose
-        cv2.imshow('pose', img)
+        cv2.imshow('pose', frame)
 
 cap.release()
 cv2.destroyAllWindows()
