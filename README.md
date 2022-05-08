@@ -5,15 +5,11 @@ A real-time system to classify single-object behaviour. Using MediaPipe Pose and
 
 ## Demonstrate
 
+### Training process
 ![Training process](img/train.jpg)
-<h3 style="text-align: center">
-Training process
-</h3>
 
+### Inference process
 ![Inference process](img/inference.jpg)
-<h3 style="text-align: center">
-Inference process
-</h3>
 
 ## Folder structure
 - The `data` folder includes the generated data from `src/gen_data.py`
