@@ -12,6 +12,7 @@ import cv2
 import mediapipe as mp
 import pandas as pd
 import time
+from config import *
 
 from scipy.misc import face
 
@@ -23,8 +24,6 @@ pose = mpPose.Pose()
 ls_landmark = []
 
 label = input("Class name:")
-nFrame = 600
-countDown = 10
 
 # Create dataset of landmarks and timestamp
 def make_landmark_timestamp(poseRet):
@@ -64,11 +63,11 @@ def draw_count_frame(cnt, total, frame):
     )
     return frame
 
-for i in range(countDown):
+for i in range(N_DELAY):
     print(i)
     time.sleep(1)
 
-while len(ls_landmark)<nFrame:
+while len(ls_landmark)<N_FRAME:
     ret, frame = cap.read()
     if (ret):
         # Show input
@@ -87,7 +86,7 @@ while len(ls_landmark)<nFrame:
             frame = draw_landmark(frame, mpDraw, pose_landmarks=poseRet.pose_landmarks, face_landmarks = None)
 
         # Draw frame count
-        frame = draw_count_frame(len(ls_landmark), nFrame,frame)
+        frame = draw_count_frame(len(ls_landmark), N_FRAME,frame)
 
         # Show pose
         cv2.imshow('pose', frame)
