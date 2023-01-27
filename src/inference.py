@@ -11,6 +11,9 @@ PLEASE DO NOT COPY WITHOUT PERMISSION!
 import cv2
 import mediapipe as mp
 import os
+import warnings
+warnings.filterwarnings('ignore')
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
 import numpy as np
 import threading
@@ -23,7 +26,7 @@ mpPose = mp.solutions.pose
 mpDraw = mp.solutions.drawing_utils
 pose = mpPose.Pose()
 
-model = load_model('models/best.h5')
+model = load_model('../models/best.h5')
 ls_landmark = []
 label = "None"
 
@@ -68,7 +71,7 @@ def detect(model, ls_landmark):
     print(np.round(np.array(result[0]),2))
 
 # Extract classes
-files = os.listdir('data')
+files = os.listdir('../data')
 classes = []
 for path in files:
     classes.append(path.split('.')[0])

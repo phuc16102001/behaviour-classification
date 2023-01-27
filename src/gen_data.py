@@ -14,7 +14,10 @@ import pandas as pd
 import time
 from config import *
 
-from scipy.misc import face
+import os
+import warnings
+warnings.filterwarnings('ignore')
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
 # Init variables
 cap = cv2.VideoCapture(0)
@@ -92,7 +95,7 @@ while len(ls_landmark)<N_FRAME:
         cv2.imshow('pose', frame)
         
 df = pd.DataFrame(ls_landmark)
-df.to_csv("data/{}.csv".format(label),index=False)
+df.to_csv("../data/{}.csv".format(label),index=False)
 
 cap.release()
 cv2.destroyAllWindows()
