@@ -1,59 +1,73 @@
 # Behaviour classification
 
+<p>
+  <img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" alt="tensorflow">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="python">
+</p>
+
 ## Introduction
+
 A real-time system to classify single-object behaviour. Using MediaPipe Pose and Tensorflow with LSTM model to not only inference on trained model, but also to train.
 
-## Demonstrate
+## Gallery
 
-### Training process
-![Training process](img/train.jpg)
+<p align="center">
+  <img alt="train" src="img/train.jpg" style="width: 70%">
+</p>
+<p align="center">
+  <b>Training process</b>
+</p>
 
-### Inference process
-![Inference process](img/inference.jpg)
-
-## Folder structure
-- The `data` folder includes the generated data from `src/gen_data.py`
-- The `src` folder contains source code:
-  - `config.py`: 
-    - Number of frames will be captured in generating data phase (`N_FRAME`)
-    - The delay time (second) before capturing (`N_DELAY`)
-    - The configuration of number of epochs (`N_EPOCH`)
-    - Batch size (`N_BATCH`)
-    - Window size of LSTM layer (`N_TIME`)
-  - `gen_data.py`: Used to generate data for different classes
-  - `train.py`: The file should be run after generating all the behaviour from `gen_data.py` to create the model
-  - `inference.py`: Thereafter, the model is used by this file to inference
-- The `models` folder contains the model `best.h5` which were trained by `train.py`
+<p align="center">
+  <img alt="inference" src="img/inference.jpg" style="width: 70%">
+</p>
+<p align="center">
+  <b>Inference process</b>
+</p>
 
 ## Architecture
 
-In each frame of picture, I used the `Media Pipe Pose` library from Google to detect poses' landmark. Subsequently, these landmarks were converted as a vector. Each landmark not only contains two coordinates (x, y) but also includes (z, visibility). At the generating data stage, `N_FRAME` video frames were captured after `N_DELAY` second count down. I used a Recurrent neural network (RNN) model which contains LSTM layers and trained it by feeding `N_TIME` window frames continuously. Furthermore, the model also attached some drop-out layers to reduce overfitting.
+In each frame of picture, the [MediaPipe Pose](https://google.github.io/mediapipe/solutions/pose.html) library first detect poses' landmark. Each landmark not only contains two coordinates (x, y, z, visibility). Then, these landmarks will be used to train a RNN model which contains LSTM layers. Furthermore, the model also attached some drop-out layers to reduce overfitting.
 
-## Instruction
-### Install libraries
+<p align="center">
+  <img alt="model" src="img/model.png" style="width: 70%">
+</p>
+<p align="center">
+  <b>Model architecture (from <a href="https://aithietke.com/">AI Design</a>)</b>
+</p>
+
+## Usage
+
+Firstly, please do install all the required libraries using the command:
+
 ```Bash
 pip install -r requirements.txt
 ```
 
-### Generating data
+You can either use the pre-trained model in `models/best.h5`, or train a new one by yourself. In this case, the instruction will train a new model.
 
-Run the `src/gen_data.py` **for each class**
-After starting the script, enter the `class_name` to console
+At the first stage, you need to generate a new dataset. For each class, you need to run the `gen_data.py`:
 
-### Training
+```bash
+python gen_data.py
+```
 
-Run the `src/train.ipynb`
+After generating all the classes in `data`, run the `train.py` to train the model:
 
-### Inference
+```bash
+python train.py
+```
 
-Ensure that the trained model is existed `models/best.h5`
-Then run the `inference.py`
+The training process will generate a model in `models/best.h5`. At this moment, you can run the model:
+
+```bash
+python inference.py
+```
 
 ## Contribution
 
-This project was done by [phuc16102001](https://github.com/phuc16102001/)
-You can reference if you needed, but **do not copy** without permission
+This project was developed by [phuc16102001](https://github.com/phuc16102001/) and referencing from [Mi AI](https://www.miai.vn/2022/02/14/nhan-dien-hanh-vi-con-nguoi-bang-mediapipe-pose-va-lstm-model-mi-ai/).
 
-## Reference
+## License
 
-This project was built by referencing and improving the project from [Mi AI](https://www.miai.vn/2022/02/14/nhan-dien-hanh-vi-con-nguoi-bang-mediapipe-pose-va-lstm-model-mi-ai/)
+[MIT](LICENSE)
